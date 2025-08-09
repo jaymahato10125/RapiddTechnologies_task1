@@ -16,7 +16,10 @@ export class AppComponent {
 
   title = 'Time Tracker';
 
-  readonly apiUrl = 'https://rc-vault-fap-live-1.azurewebsites.net/api/gettimeentries?code=vO17RnE8vuzXzPJo5eaLLjXjmRW07law99QTD90zat9FfOQJKKUcgQ==';
+  // Use direct Azure URL in local dev; use serverless proxy in production to avoid CORS
+  readonly apiUrl = (typeof window !== 'undefined' && window.location.hostname === 'localhost')
+    ? 'https://rc-vault-fap-live-1.azurewebsites.net/api/gettimeentries?code=vO17RnE8vuzXzPJo5eaLLjXjmRW07law99QTD90zat9FfOQJKKUcgQ=='
+    : '/api/time-entries';
 
   // Raw entries
   readonly entriesSignal = signal<TimeEntry[]>([]);
